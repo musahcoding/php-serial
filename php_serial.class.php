@@ -42,7 +42,7 @@ class phpSerial
      *
      * @return phpSerial
      */
-    public function phpSerial ()
+    public function __construct()
     {
         setlocale(LC_ALL, "en_US");
 
@@ -209,7 +209,8 @@ class phpSerial
     /**
      * Configure the Baud Rate
      * Possible rates : 110, 150, 300, 600, 1200, 2400, 4800, 9600, 38400,
-     * 57600 and 115200.
+     * 57600, 115200, 230400, 460800, 500000, 576000, 921600, 1000000,
+     * 1152000, 1500000, 2000000, 2500000, 3000000, 3500000 and 4000000
      *
      * @param  int  $rate the rate to set the port in
      * @return bool
@@ -232,10 +233,15 @@ class phpSerial
             4800   => 48,
             9600   => 96,
             19200  => 19,
-            38400  => 38400,
-            57600  => 57600,
-            115200 => 115200
         );
+
+        $extraBauds = array(38400, 57600, 115200, 230400, 460800, 500000,
+            576000, 921600, 1000000, 1152000, 1500000, 2000000, 2500000, 3000000,
+            3500000, 4000000);
+
+        foreach ($extraBauds as $extraBaud) {
+            $validBauds[$extraBaud] = $extraBaud;
+        }
 
         if (isset($validBauds[$rate])) {
             if ($this->_os === "linux") {
@@ -254,6 +260,8 @@ class phpSerial
 
                 return false;
             }
+        } else {
+            trigger_error("Unknown baud rate: ".$rate);
         }
     }
 
