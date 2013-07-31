@@ -176,6 +176,16 @@ class PhpSerial
     }
 
     /**
+     * Sets the I/O blocking or not blocking
+     *
+     * @param $blocking true or false
+     */
+    public function setBlocking($blocking)
+    {
+        stream_set_blocking($this->_dHandle, $blocking);
+    }
+
+    /**
      * Closes the device
      *
      * @return bool
@@ -492,6 +502,32 @@ class PhpSerial
     }
 
     /**
+     * Reads one line and returns after a \r or \n
+     *
+     * @return $line the readed line
+     */
+    public function readLine()
+    {
+        $line = '';
+
+        $this->setBlocking(true);
+        while (true) {
+            $c = $this->readPort(1);
+
+            if ($c != "\r" && $c != "\n") {
+                $line .= $c;
+            } else {
+                if ($line) {
+                    break;
+                }
+            }
+        }
+        $this->setBlocking(false);
+
+        return $line;
+    }
+
+    /**
      * Reads the port until no new datas are availible, then return the content.
      *
      * @pararm int $count number of characters to be read (will stop before
@@ -512,18 +548,11 @@ class PhpSerial
             $content = "";
             $i = 0;
 
-            if ($count !== 0) {
-                do {
-                    if ($i > $count) {
-                        $content .= fread($this->_dHandle, ($count - $i));
-                    } else {
-                        $content .= fread($this->_dHandle, 128);
-                    }
-                } while (($i += 128) === strlen($content));
-            } else {
-                do {
-                    $content .= fread($this->_dHandle, 128);
-                } while (($i += 128) === strlen($content));
+            $count = $count ?: 128;
+
+            for ($i=0; $i<$count;) {
+                $content .= fread($this->_dHandle, min($count-$i, 128));
+                $i += strlen($content);
             }
 
             return $content;
