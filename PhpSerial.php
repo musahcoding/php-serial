@@ -1,5 +1,5 @@
 <?php
-namespace phpSerial;
+namespace PhpSerial;
 
 define("SERIAL_DEVICE_NOTSET", 0);
 define("SERIAL_DEVICE_SET", 1);
@@ -21,7 +21,7 @@ define("SERIAL_DEVICE_OPENED", 2);
  * @copyright under GPL 2 licence
  */
 
-class phpSerial
+class PhpSerial
 {
     public $_device = null;
     public $_windevice = null;
@@ -40,7 +40,7 @@ class phpSerial
     /**
      * Constructor. Perform some checks about the OS and setserial
      *
-     * @return phpSerial
+     * @return PhpSerial
      */
     public function __construct()
     {
