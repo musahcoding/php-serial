@@ -527,6 +527,22 @@ class PhpSerial
         return $line;
     }
 
+    public function readFlush()
+    {
+        while ($this->dataAvailable()) {
+            $this->readPort(1);
+        }
+    }
+
+    public function dataAvailable()
+    {
+        $read = array($this->_dHandle);
+        $write = null;
+        $except = null;
+
+        return stream_select($read, $write, $except, 0);
+    }
+
     /**
      * Reads the port until no new datas are availible, then return the content.
      *
