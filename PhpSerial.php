@@ -14,8 +14,8 @@ define("SERIAL_DEVICE_OPENED", 2);
  * Changes added by Rizwan Kassim <rizwank@geekymedia.com> for OSX functionality
  * default serial device for osx devices is /dev/tty.serial for machines with a built in serial device
  *
- * @author Rémy Sanchez <thenux@gmail.com>
- * @thanks Aurélien Derouineau for finding how to open serial ports with windows
+ * @author RÃ©my Sanchez <thenux@gmail.com>
+ * @thanks AurÃ©lien Derouineau for finding how to open serial ports with windows
  * @thanks Alec Avedisyan for help and testing with reading
  * @thanks Jim Wright for OSX cleanup/fixes.
  * @copyright under GPL 2 licence
@@ -307,7 +307,7 @@ class PhpSerial
         } elseif ($this->_os === "osx") {
             $ret = $this->_exec("stty -f " . $this->_device . " " . $args[$parity], $out);
         } else {
-            $ret = $this->_exec("mode " . $this->_windevice . " PARITY=" . $parity{0}, $out);
+            $ret = $this->_exec("mode " . $this->_windevice . " PARITY=" . $parity[0], $out);
         }
 
         if ($ret === 0) {
@@ -463,11 +463,11 @@ class PhpSerial
 
         $return = exec("setserial " . $this->_device . " " . $param . " " . $arg . " 2>&1");
 
-        if ($return{0} === "I") {
+        if ($return[0] === "I") {
             trigger_error("setserial: Invalid flag", E_USER_WARNING);
 
             return false;
-        } elseif ($return{0} === "/") {
+        } elseif ($return[0] === "/") {
             trigger_error("setserial: Error with device file", E_USER_WARNING);
 
             return false;
