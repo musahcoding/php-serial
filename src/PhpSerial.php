@@ -127,7 +127,7 @@ class PhpSerial
         }
 
         if (!preg_match('@^[raw]\+?b?$@', $mode)) {
-            throw new PhpSerialException('Invalid opening mode : ' . $mode . '. Use fopen() modes.';
+            throw new PhpSerialException('Invalid opening mode : ' . $mode . '. Use fopen() modes.');
         }
 
         $handle = fopen($this->device, $mode);
@@ -191,7 +191,7 @@ class PhpSerial
     public function confBaudRate(int $rate): void
     {
         if ($this->state !== SerialDeviceState::set) {
-            throw new PhpSerialException('Unable to set the baud rate : the device is either not set or opened';
+            throw new PhpSerialException('Unable to set the baud rate : the device is either not set or opened');
         }
 
         $validBauds = [
