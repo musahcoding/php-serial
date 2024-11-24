@@ -1,20 +1,28 @@
 {
-    "name": "gregwar/php-serial",
+    "name": "musahcoding/php-serial",
     "description": "This PHP class can be used to communicate with a serial port under Linux, OSX or Windows.",
-    "keywords": ["serial", "serialport"],
-    "homepage": "http://code.google.com/p/php-serial/",
+    "keywords": [
+        "serial",
+        "serialport",
+        "serial port",
+        "serialport php",
+        "serial port php"
+    ],
+    "homepage": "https://github.com/musahcoding/php-serial",
     "license": "GPL-2.0",
     "authors": [
         {
-            "name": "Rémy Sanchez",
-            "email": "thenux@gmail.com"
+            "name": "Musa Haidari",
+            "email": "musahcoding@gmail.com"
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=8.3.0"
     },
-    "target-dir": "PhpSerial",
+    "target-dir": "@MusaHCoding/PhpSerial",
     "autoload": {
-        "psr-0": { "PhpSerial": "" }
+        "psr-4": {
+            "MusaHCoding\\SerialPort\\": "src/"
+        }
     }
 }
