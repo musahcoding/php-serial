@@ -37,7 +37,7 @@ class PhpSerial
             $this->os = Os::linux;
 
             if ($this->exec('stty --version') === 0) {
-                register_shutdown_function(array($this, 'deviceClose'));
+                register_shutdown_function([$this, 'deviceClose']);
             } else {
                 throw new PhpSerialException('No stty available, unable to run.');
             }
@@ -49,10 +49,10 @@ class PhpSerial
              *
              * $this->_exec('stty') === 0
              */
-            register_shutdown_function(array($this, 'deviceClose'));
+            register_shutdown_function([$this, 'deviceClose']);
         } elseif (str_starts_with($sysName, 'Windows')) {
             $this->os = Os::windows;
-            register_shutdown_function(array($this, 'deviceClose'));
+            register_shutdown_function([$this, 'deviceClose']);
         } else {
             throw new PhpSerialException('Host OS is neither osx, linux nor windows, unable to run.');
         }
@@ -194,7 +194,7 @@ class PhpSerial
             throw new PhpSerialException('Unable to set the baud rate : the device is either not set or opened';
         }
 
-        $validBauds = array(
+        $validBauds = [
             110 => 11,
             150 => 15,
             300 => 30,
@@ -204,9 +204,9 @@ class PhpSerial
             4800 => 48,
             9600 => 96,
             19200 => 19,
-        );
+        ];
 
-        $extraBauds = array(
+        $extraBauds = [
             38400,
             57600,
             115200,
@@ -222,8 +222,8 @@ class PhpSerial
             2500000,
             3000000,
             3500000,
-            4000000
-        );
+            4000000,
+        ];
 
         foreach ($extraBauds as $extraBaud) {
             $validBauds[$extraBaud] = $extraBaud;
@@ -260,11 +260,11 @@ class PhpSerial
             throw new PhpSerialException('Unable to set parity : the device is either not set or opened');
         }
 
-        $args = array(
+        $args = [
             'none' => '-parenb',
             'odd' => 'parenb parodd',
             'even' => 'parenb -parodd',
-        );
+        ];
 
         if (!isset($args[$parity])) {
             throw new PhpSerialException('Parity mode not supported');
@@ -366,16 +366,16 @@ class PhpSerial
             throw new PhpSerialException('Unable to set flow control mode : the device is either not set or opened');
         }
 
-        $linuxModes = array(
+        $linuxModes = [
             'none' => 'clocal -crtscts -ixon -ixoff',
             'rts/cts' => '-clocal crtscts -ixon -ixoff',
             'xon/xoff' => '-clocal -crtscts ixon ixoff'
-        );
-        $windowsModes = array(
+        ];
+        $windowsModes = [
             'none' => 'xon=off octs=off rts=on',
             'rts/cts' => 'xon=off octs=on rts=hs',
             'xon/xoff' => 'xon=on octs=off rts=on',
-        );
+        ];
 
         if ($mode !== 'none' and $mode !== 'rts/cts' and $mode !== 'xon/xoff') {
             throw new PhpSerialException('Invalid flow control mode specified');
@@ -474,7 +474,7 @@ class PhpSerial
 
     public function dataAvailable(): false|int
     {
-        $read = array($this->handle);
+        $read = [$this->handle];
         $write = null;
         $except = null;
 
@@ -562,10 +562,10 @@ class PhpSerial
 
     private function exec($cmd, &$out = null): int
     {
-        $desc = array(
-            1 => array('pipe', 'w'),
-            2 => array('pipe', 'w')
-        );
+        $desc = [
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w'],
+        ];
 
         $proc = proc_open($cmd, $desc, $pipes);
 
@@ -578,7 +578,7 @@ class PhpSerial
         $retVal = proc_close($proc);
 
         if (func_num_args() == 2) {
-            $out = array($ret, $err);
+            $out = [$ret, $err];
         }
 
         return $retVal;
