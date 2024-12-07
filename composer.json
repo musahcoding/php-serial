@@ -1,6 +1,7 @@
 {
     "name": "musahcoding/php-serial",
-    "description": "This PHP class can be used to communicate with a serial port under Linux, OSX or Windows.",
+    "description": "This PHP class can be used to communicate with a serial port under Linux, Mac or Windows.",
+    "type": "library",
     "keywords": [
         "serial",
         "serialport",
@@ -19,7 +20,6 @@
     "require": {
         "php": ">=8.3.0"
     },
-    "target-dir": "@MusaHCoding/PhpSerial",
     "autoload": {
         "psr-4": {
             "MusaHCoding\\SerialPort\\": "src/"
